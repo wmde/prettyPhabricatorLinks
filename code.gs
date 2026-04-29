@@ -2,7 +2,6 @@
  * Configuration
  *******************************************************/
 const PHAB_API_URL = 'https://phabricator.wikimedia.org/api/';
-const PHAB_API_TOKEN = 'api-o5fq6cdobn3kmy5sgzb3as5uuqsr';
 
 /*******************************************************
  * Menu
