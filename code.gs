@@ -1,7 +1,8 @@
 /*******************************************************
  * Configuration
  *******************************************************/
-const PHAB_BASE = "https://phabricator.wikimedia.org/api/maniphest.search";
+const PHAB_API_URL = 'https://phabricator.wikimedia.org/api/';
+const PHAB_API_TOKEN = 'api-qearjiavx2hg5vdhrqo6i33dtnft';
 
 /*******************************************************
  * Menu
@@ -110,24 +111,27 @@ function processSingleLink(text, offset, url) {
 }
 
 /*******************************************************
- * Fetch title from Phabricator
+ * Fetch title from Phabricator API
  *******************************************************/
 function fetchPhabricatorTitle(taskId) {
   try {
-    const url = `https://phabricator.wikimedia.org/T${taskId}`;
-    const response = UrlFetchApp.fetch(url);
-    const html = response.getContentText();
+    const options = {
+      method: 'post',
+      payload: {
+        'api.token': PHAB_API_TOKEN,
+        'constraints[ids][0]': taskId
+      }
+    };
 
-    const match = html.match(/<title>(.*?)<\/title>/i);
-    if (!match) return null;
+    const response = UrlFetchApp.fetch(`${PHAB_API_URL}maniphest.search`, options);
+    const data = JSON.parse(response.getContentText());
 
-    return match[1]
-      .replace(/^T\d+\s*/, "")
-      .replace(/\s*·\s*Wikimedia Phabricator$/, "")
-      .trim();
-
+    if (data && data.result && data.result.data.length > 0) {
+      return data.result.data[0].fields.name;
+    }
   } catch (e) {
     Logger.log(e);
-    return null;
   }
+
+  return null;
 }
