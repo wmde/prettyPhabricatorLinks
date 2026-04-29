@@ -1,0 +1,24 @@
+{
+  "timeZone": "Europe/Berlin",
+  "runtimeVersion": "V8",
+  "oauthScopes": [
+    "https://www.googleapis.com/auth/documents.currentonly",
+    "https://www.googleapis.com/auth/script.external_request",
+    "https://www.googleapis.com/auth/script.locale"
+  ],
+  "urlFetchWhitelist": [
+    "https://phabricator.wikimedia.org/"
+  ],
+  "addOns": {
+    "common": {
+      "name": "Pretty Phabricator Links",
+      "logoUrl": "https://upload.wikimedia.org/wikipedia/commons/a/ad/Link-dynamic-premium.png",
+      "useLocaleFromApp": true
+    },
+    "docs": {
+      "homepageTrigger": {
+        "runFunction": "buildHomepage"
+      }
+    }
+  }
+}
